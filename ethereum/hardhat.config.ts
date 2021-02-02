@@ -51,7 +51,7 @@ if (!process.env.PRIVATE_KEY) {
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   solidity: {
-    compilers: [{ version: "0.6.10", settings: {} }],
+    compilers: [{ version: "0.7.6", settings: {} }],
     settings: {
       optimizer: {
         enabled: true,
