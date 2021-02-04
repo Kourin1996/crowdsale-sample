@@ -10,6 +10,8 @@
     "build": "npm run compile",
     "compile": "hardhat compile",
     "test": "hardhat test",
+    "start:node": "hardhat node",
+    "deploy:localhost":"hardhat run --network localhost scripts/deploy.ts",
     "coverage": "hardhat coverage",
     "lint": "solhint 'contracts/**/*.sol'",
     "lint:fix": "solhint --fix 'contracts/**/*.sol'"
