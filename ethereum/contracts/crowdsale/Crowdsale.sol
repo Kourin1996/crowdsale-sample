@@ -12,6 +12,8 @@ contract Crowdsale is ICrowdsale, Context {
 
     address payable public wallet;
 
+    uint256 public startTime;
+
     uint256 public rate;
 
     uint256 public weiRaised;
@@ -28,6 +30,7 @@ contract Crowdsale is ICrowdsale, Context {
         require(_wallet != address(0), "Wallet address must not be zero");
         require(_rate > 0, "Rate must not be zero");
 
+        startTime = block.timestamp;
         token = _token;
         wallet = _wallet;
         rate = _rate;
@@ -92,6 +95,7 @@ contract Crowdsale is ICrowdsale, Context {
 
     function _deliverTokens(address _beneficiary, uint256 _tokenAmount)
         internal
+        virtual
     {
         token.transfer(_beneficiary, _tokenAmount);
     }

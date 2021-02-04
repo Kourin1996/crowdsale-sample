@@ -10,11 +10,13 @@ contract KourinToken is ERC20, ERC20Capped, ERC20Burnable {
     string public constant TOKEN_SYMBOL = "KT";
     uint256 public constant TOKEN_CAPACITY = 10**(18 + 6);
 
-    constructor()
+    constructor(uint256 _initialOwnerAmount)
         public
         ERC20(TOKEN_NAME, TOKEN_SYMBOL)
         ERC20Capped(TOKEN_CAPACITY)
-    {}
+    {
+        _mint(_msgSender(), _initialOwnerAmount);
+    }
 
     function _beforeTokenTransfer(
         address from,
