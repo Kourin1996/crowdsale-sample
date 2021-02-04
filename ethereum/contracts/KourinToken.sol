@@ -8,15 +8,13 @@ import "@openzeppelin/contracts/utils/Context.sol";
 contract KourinToken is ERC20, ERC20Capped, ERC20Burnable {
     string public constant TOKEN_NAME = "KourinToken";
     string public constant TOKEN_SYMBOL = "KT";
-    uint256 public constant TOKEN_CAPACITY = 10**(18 + 8);
+    uint256 public constant TOKEN_CAPACITY = 10**(18 + 6);
 
-    constructor(uint256 initialOwnerAmount_)
+    constructor()
         public
         ERC20(TOKEN_NAME, TOKEN_SYMBOL)
         ERC20Capped(TOKEN_CAPACITY)
-    {
-        _mint(_msgSender(), initialOwnerAmount_);
-    }
+    {}
 
     function _beforeTokenTransfer(
         address from,
