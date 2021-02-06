@@ -3,29 +3,38 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
-    "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "autoprefixer": "^9.8.6",
+    "classnames": "^2.2.6",
+    "postcss": "^7.0.35",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {
+    "@craco/craco": "^6.1.0",
+    "@types/classnames": "^2.2.11",
+    "@types/react": "^16.14.3",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.3",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "prettier-plugin-tailwind": "^2.2.8",
+    "typescript-plugin-css-modules": "^3.2.0"
   },
   "eslintConfig": {
     "extends": [
@@ -37,7 +46,8 @@
     "semi": false,
     "singleQuote": true,
     "tabWidth": 2,
-    "trailingComma": "all"
+    "trailingComma": "all",
+    "twPluginsOrder": "container,position,zIndex,inset,display,flex,flexDirection,flexGrow,flexShrink,flexWrap,gap,gridAutoFlow,gridColumn,gridColumnEnd,gridColumnStart,gridRow,gridRowEnd,gridRowStart,gridTemplateColumns,gridTemplateRows,alignContent,alignItems,alignSelf,justifyContent,justifyItems,justifySelf,verticalAlign,placeContent,placeItems,placeSelf,float,clear,order,tableLayout,margin,padding,width,minWidth,maxWidth,height,maxHeight,minHeight,textAlign,textColor,textDecoration,textOpacity,wordBreak,whitespace,fontFamily,fontSize,fontSmoothing,fontStyle,fontVariantNumeric,fontWeight,letterSpacing,lineHeight,backgroundColor,backgroundImage,backgroundSize,backgroundPosition,backgroundRepeat,backgroundAttachment,backgroundClip,backgroundOpacity,borderWidth,borderStyle,borderColor,borderOpacity,borderRadius,borderCollapse,placeholderColor,placeholderOpacity,outline,fill,stroke,strokeWidth,boxShadow,gradientColorStops,opacity,visibility,accessibility,appearance,boxSizing,cursor,pointerEvents,userSelect,divideColor,divideOpacity,divideStyle,divideWidth,listStylePosition,listStyleType,objectFit,objectPosition,overflow,overscrollBehavior,transform,transformOrigin,translate,textTransform,resize,rotate,scale,skew,space,animation,transitionProperty,transitionDuration,transitionDelay,transitionTimingFunction,preflight"
   },
   "browserslist": {
     "production": [

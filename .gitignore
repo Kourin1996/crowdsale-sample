@@ -27,3 +27,5 @@
 */artifacts
 */cache
 */typechain
+
+.DS_Store
