@@ -2,11 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
+import Middleware from './middleware'
 import Router from './router'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router />
+    <Middleware>
+      <Router />
+    </Middleware>
   </React.StrictMode>,
   document.getElementById('root'),
 )

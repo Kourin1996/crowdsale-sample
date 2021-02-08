@@ -9,6 +9,7 @@ import "hardhat-typechain";
 import "@nomiclabs/hardhat-etherscan";
 import "solidity-coverage";
 import "hardhat-gas-reporter";
+import "hardhat-abi-exporter";
 
 const chainIds = {
   ganache: 1337,
@@ -65,6 +66,12 @@ const config: HardhatUserConfig = {
     kovan: createTestnetConfig("kovan", infuraApiKey, privateKey),
     rinkeby: createTestnetConfig("rinkeby", infuraApiKey, privateKey),
     ropsten: createTestnetConfig("ropsten", infuraApiKey, privateKey),
+  },
+  abiExporter: {
+    path: "./abi",
+    clear: true,
+    flat: true,
+    only: ["KourinTokenCrowdsale"],
   },
 };
 

@@ -1,5 +1,33 @@
 import React from 'react'
+import { ethers } from 'ethers'
+import { useAsync } from 'react-async-hook'
 import { CountDown } from '../../molecules/CountDown'
+import { useEthersProvider } from '../../../contexts/ethers-provider'
+import { useCrowdsale } from '../../../hooks/crowdsale'
+
+const IcoCountDown = () => {
+  const provider = useEthersProvider()
+  const signer = React.useMemo(
+    () => ethers.Wallet.createRandom().connect(provider),
+    [provider],
+  )
+  const crowdsaleContractAddress = '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512'
+  const crowdsale = useCrowdsale(crowdsaleContractAddress, signer)
+
+  const { loading, error, result } = useAsync(
+    async () => crowdsale.hasStarted(),
+    [crowdsale],
+  )
+
+  console.log({ loading, error, result })
+
+  return (
+    <div>
+      <p className="mb-2 text-white text-base font-bold">ICO BEGINS IN</p>
+      <CountDown />
+    </div>
+  )
+}
 
 type IndexPageTemplateProps = {}
 
@@ -26,7 +54,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = (_props) => {
               maxWidth: '400px',
             }}
           >
-            Fake ICO Landing Page for New Technology
+            Fake ICO Landing Page!!
           </p>
           <div
             className="backdrop-filter-blur-16 z-1 mt-16 p-8 w-3/4 h-full bg-white bg-opacity-5 border border-solid border-white border-opacity-40 rounded-3xl"
@@ -38,7 +66,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = (_props) => {
               borderRight: '1px rgba(40,40,40,0.35) solid',
             }}
           >
-            <CountDown />
+            <IcoCountDown />
           </div>
           <div className="absolute z-0 right-5" style={{ bottom: '-20px' }}>
             <img
