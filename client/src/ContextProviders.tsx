@@ -3,7 +3,7 @@ import { EthersNetworkContextProvider } from './contexts/ethers-network'
 import { EthersProviderContextProvider } from './contexts/ethers-provider'
 import { EthersWalletContextProvider } from './contexts/ethers-wallet'
 
-const Middleware: React.FC<{}> = ({ children }) => {
+export const ContextProviders: React.FC<{}> = ({ children }) => {
   return (
     <>
       <EthersNetworkContextProvider>
@@ -14,5 +14,3 @@ const Middleware: React.FC<{}> = ({ children }) => {
     </>
   )
 }
-
-export default Middleware
