@@ -1,25 +1,24 @@
 import React from 'react'
 import { ethers } from 'ethers'
 import { createCtx } from '../utils/context'
+import { useEthersNetwork } from './ethers-network'
 
-const ethersContext = createCtx<ethers.providers.BaseProvider>()
+const ethersProviderContext = createCtx<ethers.providers.Provider>()
 
-export const useEthersProvider = ethersContext[0]
+export const useEthersProvider = ethersProviderContext[0]
 
-type EthersContextProviderProps = {
-  network?: string | ethers.providers.Network
-  options?: any
-}
+export const EthersProviderContextProvider: React.FC<{}> = (props) => {
+  const { children } = props
 
-export const EthersContextProvider: React.FC<EthersContextProviderProps> = (
-  props,
-) => {
-  const { children, network, options } = props
+  const selectedNetwork = useEthersNetwork()
+  const providerNetwork =
+    selectedNetwork !== 'localhost' ? selectedNetwork : 'http://127.0.0.1:8545'
+  const [options] = React.useState({})
 
-  const ContextProvider = ethersContext[1]
+  const ContextProvider = ethersProviderContext[1]
   const ethersProvider = React.useMemo(
-    () => ethers.getDefaultProvider(network, options),
-    [],
+    () => ethers.getDefaultProvider(providerNetwork, options),
+    [providerNetwork, options],
   )
 
   return <ContextProvider value={ethersProvider}>{children}</ContextProvider>

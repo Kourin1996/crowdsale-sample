@@ -1,14 +1,16 @@
 import React from 'react'
-import { EthersContextProvider } from './contexts/ethers-provider'
+import { EthersNetworkContextProvider } from './contexts/ethers-network'
+import { EthersProviderContextProvider } from './contexts/ethers-provider'
+import { EthersWalletContextProvider } from './contexts/ethers-wallet'
 
 const Middleware: React.FC<{}> = ({ children }) => {
-  const network = 'http://127.0.0.1:8545'
-
   return (
     <>
-      <EthersContextProvider network={network}>
-        {children}
-      </EthersContextProvider>
+      <EthersNetworkContextProvider>
+        <EthersProviderContextProvider>
+          <EthersWalletContextProvider>{children}</EthersWalletContextProvider>
+        </EthersProviderContextProvider>
+      </EthersNetworkContextProvider>
     </>
   )
 }

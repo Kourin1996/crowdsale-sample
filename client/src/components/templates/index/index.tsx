@@ -1,25 +1,10 @@
 import React from 'react'
-import { ethers } from 'ethers'
-import { useAsync } from 'react-async-hook'
 import { CountDown } from '../../molecules/CountDown'
-import { useEthersProvider } from '../../../contexts/ethers-provider'
 import { useCrowdsale } from '../../../hooks/crowdsale'
 
 const IcoCountDown = () => {
-  const provider = useEthersProvider()
-  const signer = React.useMemo(
-    () => ethers.Wallet.createRandom().connect(provider),
-    [provider],
-  )
-  const crowdsaleContractAddress = '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512'
-  const crowdsale = useCrowdsale(crowdsaleContractAddress, signer)
-
-  const { loading, error, result } = useAsync(
-    async () => crowdsale.hasStarted(),
-    [crowdsale],
-  )
-
-  console.log({ loading, error, result })
+  const crowdsale = useCrowdsale()
+  console.log('crowdsale', crowdsale)
 
   return (
     <div>
