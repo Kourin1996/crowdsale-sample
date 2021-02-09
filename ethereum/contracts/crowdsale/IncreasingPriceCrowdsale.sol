@@ -30,16 +30,29 @@ abstract contract IncreasingPriceCrowdsale is Crowdsale {
         rates = _rates;
     }
 
-    function getCurrentRate() public view returns (uint256) {
+    function getPeriods() public view returns (uint256[] memory) {
+        return periods;
+    }
+
+    function getRates() public view returns (uint256[] memory) {
+        return rates;
+    }
+
+    function getCurrentPhase() public view returns (uint256, bool) {
         uint256 nextPeriodStartTime = startTime;
         for (uint256 i = 0; i < periods.length; ++i) {
             uint256 nextPeriodEndTime = nextPeriodStartTime.add(periods[i]);
             if (block.timestamp < nextPeriodEndTime) {
-                return rates[i];
+                return (i, true);
             }
             nextPeriodStartTime = nextPeriodEndTime;
         }
-        return rate;
+        return (0, false);
+    }
+
+    function getCurrentRate() public view returns (uint256) {
+        (uint256 index, bool success) = getCurrentPhase();
+        return success ? rates[index] : rate;
     }
 
     function _getTokenAmount(uint256 _weiAmount)

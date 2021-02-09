@@ -3,17 +3,21 @@ import { Count } from '../../atoms/Count'
 
 type CountDownProps = {
   children?: never
+  days: number
+  hours: number
+  minutes: number
+  seconds: number
 }
 
 export const CountDown: React.FC<CountDownProps> = (props) => {
-  const {} = props
+  const { days, hours, minutes, seconds } = props
 
   return (
     <div className="flex items-center space-x-12">
-      <Count value={1} label="DAYS" />
-      <Count value={12} label="HOURS" />
-      <Count value={23} label="MINS" />
-      <Count value={34} label="SECS" />
+      <Count value={days} label="DAYS" />
+      <Count value={hours} label="HOURS" />
+      <Count value={minutes} label="MINS" />
+      <Count value={seconds} label="SECS" />
     </div>
   )
 }

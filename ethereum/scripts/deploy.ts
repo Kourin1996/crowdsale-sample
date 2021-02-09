@@ -6,9 +6,9 @@ import { BigNumber } from "ethers";
 const TOKEN_INITIAL_AMOUNT = BigNumber.from(10).mul(18 + 3);
 
 const OPEN_IN = 60 * 5; // in 5 min [sec]
-const CLOSE_IN = 60 * 24 * 7; // in 7 days [sec]
+const CLOSE_IN = 60 * 60 * 24 * 7; // in 7 days [sec]
 
-const PERIODS = [1 * 60 * 24, 2 * 60 * 24, 4 * 60 * 24];
+const PERIODS = [1 * 60 * 60 * 24, 2 * 60 * 60 * 24, 4 * 60 * 60 * 24];
 
 const RATES = [2000, 1000, 500];
 

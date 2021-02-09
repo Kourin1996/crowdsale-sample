@@ -1,18 +1,5 @@
 import React from 'react'
-import { CountDown } from '../../molecules/CountDown'
-import { useCrowdsale } from '../../../hooks/crowdsale'
-
-const IcoCountDown = () => {
-  const crowdsale = useCrowdsale()
-  console.log('crowdsale', crowdsale)
-
-  return (
-    <div>
-      <p className="mb-2 text-white text-base font-bold">ICO BEGINS IN</p>
-      <CountDown />
-    </div>
-  )
-}
+import { IcoCountDown } from '../../organisms/IcoCountdown'
 
 type IndexPageTemplateProps = {}
 

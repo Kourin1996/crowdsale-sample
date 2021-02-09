@@ -1,9 +1,9 @@
-import React from 'react'
 import { useAsync } from 'react-async-hook'
 import { ethers } from 'ethers'
 import crowdsaleAbi from '../abi/KourinTokenCrowdsale.json'
 import { useEthersWallet } from '../contexts/ethers-wallet'
 import { getContractAddress } from '../utils/contract-address'
+import { KourinTokenCrowdsale } from '../types/KourinTokenCrowdsale'
 
 const getContract = async (
   wallet: ethers.Wallet,
@@ -18,7 +18,11 @@ const getContract = async (
         network.chainId === 31337 ? 'localhost' : network.name,
       )
   return contractAddress
-    ? new ethers.Contract(contractAddress, crowdsaleAbi, wallet)
+    ? (new ethers.Contract(
+        contractAddress,
+        crowdsaleAbi,
+        wallet,
+      ) as KourinTokenCrowdsale)
     : undefined
 }
 
@@ -31,8 +35,6 @@ export const useCrowdsale = (
     signer ?? defaultSigner,
     contractAddress,
   ])
-
-  console.log('asyncContract', asyncContract)
 
   return asyncContract
 }
