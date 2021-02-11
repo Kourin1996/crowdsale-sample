@@ -1,5 +1,7 @@
 import { Networks } from '../domain/ethereum'
 
+export const DEFAULT_NETWORK = 'http://localhost:8545'
+
 export type ContractAddresses = { [key in Networks]?: string }
 
 export const CrowdsaleContractAddresses: ContractAddresses = {

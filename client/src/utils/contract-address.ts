@@ -1,5 +1,5 @@
 import { ContractNames } from '../domain/ethereum'
-import { CrowdsaleContractAddresses } from '../constants/contract-address'
+import { CrowdsaleContractAddresses } from '../constants/ethereum'
 
 export const getContractAddressMap = (contractName: ContractNames) => {
   switch (contractName) {

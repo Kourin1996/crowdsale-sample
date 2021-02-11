@@ -1,16 +1,24 @@
 import React from 'react'
-import { EthersNetworkContextProvider } from './contexts/ethers-network'
+import { CrowdsaleContractContextProvider } from './contexts/crowdsale-contract'
+import { CrowdsaleContractInfoContextProvider } from './contexts/crowdsale-info'
+import { CrowdsaleContractStatusContextProvider } from './contexts/crowdsale-status'
 import { EthersProviderContextProvider } from './contexts/ethers-provider'
 import { EthersWalletContextProvider } from './contexts/ethers-wallet'
 
 export const ContextProviders: React.FC<{}> = ({ children }) => {
   return (
     <>
-      <EthersNetworkContextProvider>
-        <EthersProviderContextProvider>
-          <EthersWalletContextProvider>{children}</EthersWalletContextProvider>
-        </EthersProviderContextProvider>
-      </EthersNetworkContextProvider>
+      <EthersProviderContextProvider>
+        <EthersWalletContextProvider>
+          <CrowdsaleContractContextProvider>
+            <CrowdsaleContractInfoContextProvider>
+              <CrowdsaleContractStatusContextProvider>
+                {children}
+              </CrowdsaleContractStatusContextProvider>
+            </CrowdsaleContractInfoContextProvider>
+          </CrowdsaleContractContextProvider>
+        </EthersWalletContextProvider>
+      </EthersProviderContextProvider>
     </>
   )
 }
