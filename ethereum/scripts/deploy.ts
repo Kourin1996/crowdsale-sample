@@ -5,10 +5,13 @@ import { BigNumber } from "ethers";
 // 1000 Token
 const TOKEN_INITIAL_AMOUNT = BigNumber.from(10).mul(18 + 3);
 
-const OPEN_IN = 60 * 5; // in 5 min [sec]
-const CLOSE_IN = 60 * 60 * 24 * 7; // in 7 days [sec]
+// const OPEN_IN = 60 * 60 * 24 * 3; // in 3 days [sec]
+// const CLOSE_IN = 60 * 60 * 24 * 7; // in 7 days [sec]
+// const PERIODS = [1 * 60 * 60 * 24, 2 * 60 * 60 * 24, 4 * 60 * 60 * 24];
 
-const PERIODS = [1 * 60 * 60 * 24, 2 * 60 * 60 * 24, 4 * 60 * 60 * 24];
+const OPEN_IN = 60; // in 3 days [sec]
+const CLOSE_IN = 60 * 4; // in 7 days [sec]
+const PERIODS = [60, 60, 60];
 
 const RATES = [2000, 1000, 500];
 

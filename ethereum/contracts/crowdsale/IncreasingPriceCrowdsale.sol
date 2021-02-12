@@ -16,16 +16,6 @@ abstract contract IncreasingPriceCrowdsale is Crowdsale {
             "Periods and Rates must have same length"
         );
 
-        uint256 lastPeriod = 0;
-        for (uint256 i = 0; i < _periods.length; i++) {
-            require(
-                _periods[i] > lastPeriod,
-                "Periods must be in ascending order"
-            );
-            require(_rates[i] > 0, "Rate must not be zero");
-            lastPeriod = _periods[i];
-        }
-
         periods = _periods;
         rates = _rates;
     }
@@ -43,7 +33,7 @@ abstract contract IncreasingPriceCrowdsale is Crowdsale {
         for (uint256 i = 0; i < periods.length; ++i) {
             uint256 nextPeriodEndTime = nextPeriodStartTime.add(periods[i]);
             if (block.timestamp < nextPeriodEndTime) {
-                return (i, true);
+                return (i + 1, true);
             }
             nextPeriodStartTime = nextPeriodEndTime;
         }

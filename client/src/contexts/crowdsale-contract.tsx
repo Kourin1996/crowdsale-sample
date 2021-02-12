@@ -20,7 +20,6 @@ const getCrowdsaleContract = async (wallet: ethers.Wallet) => {
     'crowdsale',
     network.chainId === 31337 ? 'localhost' : network.name,
   )
-  console.log('getCrowdsaleContract', wallet, contractAddress)
 
   return contractAddress
     ? (new ethers.Contract(
