@@ -1,6 +1,6 @@
 import React from 'react'
 import { useCrowdsaleInfo } from '../../../contexts/crowdsale-info'
-import { IcoCountDownView } from './IcoCountDownView'
+import { IcoCountDownView } from './view'
 
 type IcoCountDownProps = {
   children?: never

@@ -63,6 +63,7 @@ const fetchCrowdsaleInfo = async (
     })
     startedAt = endedAt
   }
+  console.log('phases', phases)
 
   return {
     openingTime,

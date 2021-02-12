@@ -11,7 +11,7 @@ interface ICrowdsale {
         uint256 amount
     );
 
-    function receive() external payable;
+    receive() external payable;
 
     function buyTokens(address) external payable;
 }

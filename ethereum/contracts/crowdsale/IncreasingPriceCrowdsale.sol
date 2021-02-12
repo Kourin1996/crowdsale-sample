@@ -33,7 +33,7 @@ abstract contract IncreasingPriceCrowdsale is Crowdsale {
         for (uint256 i = 0; i < periods.length; ++i) {
             uint256 nextPeriodEndTime = nextPeriodStartTime.add(periods[i]);
             if (block.timestamp < nextPeriodEndTime) {
-                return (i + 1, true);
+                return (i, true);
             }
             nextPeriodStartTime = nextPeriodEndTime;
         }

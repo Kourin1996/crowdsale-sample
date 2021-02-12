@@ -71,7 +71,7 @@ const config: HardhatUserConfig = {
     path: "./abi",
     clear: true,
     flat: true,
-    only: ["KourinTokenCrowdsale"],
+    only: ["KourinToken", "KourinTokenCrowdsale"],
   },
 };
 

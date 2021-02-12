@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers'
 import React from 'react'
 import { useAsync, UseAsyncReturn } from 'react-async-hook'
 import { KourinTokenCrowdsale } from '../types/KourinTokenCrowdsale'
@@ -7,7 +8,9 @@ import { useCrowdsaleContract } from './crowdsale-contract'
 export type CrowdsaleContractStatus = {
   hasStarted: boolean
   hasClosed: boolean
-  weiRaised: number
+  ethRaised: BigNumber
+  purchasedAmount: BigNumber
+  remaining: BigNumber
   currentPhase: number
   currentRate: number
 }
@@ -27,7 +30,7 @@ export const useCrowdsaleStatusUpdate = crowdsaleContractStatusUpdateContext[0]
 
 const fetchCrowdsaleStatus = async (
   cronwdsalePromise: Promise<KourinTokenCrowdsale | undefined>,
-) => {
+): Promise<CrowdsaleContractStatus> => {
   const crowdsale = await cronwdsalePromise
   if (crowdsale === undefined) {
     throw new Error('Crowdsale is undefined')
@@ -37,20 +40,26 @@ const fetchCrowdsaleStatus = async (
     crowdsale.hasStarted(),
     crowdsale.hasClosed(),
     crowdsale.weiRaised(),
+    crowdsale.purchasedAmount(),
+    crowdsale.remaining(),
     crowdsale.getCurrentPhase(),
     crowdsale.getCurrentRate(),
   ])
 
   const hasStarted = results[0]
   const hasClosed = results[1]
-  const weiRaised = results[2].toNumber()
-  const currentPhase = results[3][1] ? results[3][0].toNumber() : -1
-  const currentRate = results[4].toNumber()
+  const ethRaised = results[2]
+  const purchasedAmount = results[3]
+  const remaining = results[4]
+  const currentPhase = results[5][1] ? results[5][0].toNumber() + 1 : -1
+  const currentRate = results[6].toNumber()
 
   return {
     hasStarted,
     hasClosed,
-    weiRaised,
+    ethRaised,
+    purchasedAmount,
+    remaining,
     currentPhase,
     currentRate,
   }

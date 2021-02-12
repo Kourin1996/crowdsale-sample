@@ -1,5 +1,6 @@
 import React from 'react'
 import { IcoCountDown } from '../../organisms/IcoCountdown'
+import { IcoProgress } from '../../organisms/IcoProgress'
 
 type IndexPageTemplateProps = {}
 
@@ -23,10 +24,10 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = (_props) => {
           <p
             className="mt-auto text-white text-5xl font-bold"
             style={{
-              maxWidth: '400px',
+              maxWidth: '600px',
             }}
           >
-            Fake ICO Landing Page!!
+            Next Generation Trading Apps on Blockchain
           </p>
           <div
             className="backdrop-filter-blur-16 z-1 mt-16 p-8 w-3/4 h-full bg-white bg-opacity-5 border border-solid border-white border-opacity-40 rounded-3xl"
@@ -39,6 +40,9 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = (_props) => {
             }}
           >
             <IcoCountDown />
+            <div className="mt-4">
+              <IcoProgress />
+            </div>
           </div>
           <div className="absolute z-0 right-5" style={{ bottom: '-20px' }}>
             <img

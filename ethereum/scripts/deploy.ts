@@ -1,17 +1,18 @@
 import { ethers } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { BigNumber } from "ethers";
+import { KourinToken } from "../typechain/KourinToken";
 
 // 1000 Token
-const TOKEN_INITIAL_AMOUNT = BigNumber.from(10).mul(18 + 3);
+const TOKEN_INITIAL_AMOUNT = BigNumber.from(10).pow(18 + 5);
 
 // const OPEN_IN = 60 * 60 * 24 * 3; // in 3 days [sec]
 // const CLOSE_IN = 60 * 60 * 24 * 7; // in 7 days [sec]
 // const PERIODS = [1 * 60 * 60 * 24, 2 * 60 * 60 * 24, 4 * 60 * 60 * 24];
 
 const OPEN_IN = 60; // in 3 days [sec]
-const CLOSE_IN = 60 * 4; // in 7 days [sec]
-const PERIODS = [60, 60, 60];
+const CLOSE_IN = 60 * 16; // in 7 days [sec]
+const PERIODS = [60 * 5, 60 * 5, 60 * 5];
 
 const RATES = [2000, 1000, 500];
 
@@ -53,6 +54,20 @@ const deployCrowdsale = async (
   return crowdsale.address;
 };
 
+const transferTokensToCrowdsale = async (
+  deployer: SignerWithAddress,
+  tokenAddress: string,
+  crowdsaleContractAddress: string,
+  amount: BigNumber
+) => {
+  const tokenFactory = await (
+    await ethers.getContractFactory("KourinToken")
+  ).connect(deployer);
+  const token = (await tokenFactory.attach(tokenAddress)) as KourinToken;
+
+  await token.transfer(crowdsaleContractAddress, amount);
+};
+
 const main = async () => {
   const [deployer] = await ethers.getSigners();
   const deployerBalance = (await deployer.getBalance()).toString();
@@ -74,6 +89,13 @@ const main = async () => {
     RATES
   );
   console.log(`Deployed Crowdsale: ${crowdsaleAddress}`);
+
+  await transferTokensToCrowdsale(
+    deployer,
+    tokenAddress,
+    crowdsaleAddress,
+    TOKEN_INITIAL_AMOUNT
+  );
 };
 
 main()

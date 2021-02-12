@@ -18,6 +18,8 @@ contract Crowdsale is ICrowdsale, Context {
 
     uint256 public weiRaised;
 
+    uint256 public purchasedAmount;
+
     constructor(
         ERC20 _token,
         address payable _wallet,
@@ -36,7 +38,11 @@ contract Crowdsale is ICrowdsale, Context {
         rate = _rate;
     }
 
-    function receive() external payable override {
+    function remaining() external view returns (uint256) {
+        return token.balanceOf(address(this));
+    }
+
+    receive() external payable override {
         buyTokens(_msgSender());
     }
 
@@ -47,6 +53,7 @@ contract Crowdsale is ICrowdsale, Context {
         uint256 tokens = _getTokenAmount(weiAmount);
 
         weiRaised = weiRaised.add(weiAmount);
+        purchasedAmount = purchasedAmount.add(tokens);
 
         _processPurchase(_beneficiary, tokens);
         emit TokenPurchase(_msgSender(), _beneficiary, weiAmount, tokens);

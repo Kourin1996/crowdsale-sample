@@ -6,4 +6,4 @@ export type Networks =
   | 'goerli'
   | 'localhost'
 
-export type ContractNames = 'crowdsale'
+export type ContractNames = 'token' | 'crowdsale'

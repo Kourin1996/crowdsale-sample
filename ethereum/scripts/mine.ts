@@ -1,7 +1,6 @@
 import { ethers } from "hardhat";
 
 const main = async () => {
-  await ethers.provider.send("evm_increaseTime", [60 * 7]); // add 60 seconds
   await ethers.provider.send("evm_mine", []);
 };
 

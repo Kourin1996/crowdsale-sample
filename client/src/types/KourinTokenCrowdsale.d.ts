@@ -32,9 +32,11 @@ interface KourinTokenCrowdsaleInterface extends ethers.utils.Interface {
     'hasStarted()': FunctionFragment
     'openingTime()': FunctionFragment
     'periods(uint256)': FunctionFragment
+    'purchasedAmount()': FunctionFragment
     'rate()': FunctionFragment
     'rates(uint256)': FunctionFragment
     'receive()': FunctionFragment
+    'remaining()': FunctionFragment
     'startTime()': FunctionFragment
     'token()': FunctionFragment
     'wallet()': FunctionFragment
@@ -66,9 +68,14 @@ interface KourinTokenCrowdsaleInterface extends ethers.utils.Interface {
     functionFragment: 'periods',
     values: [BigNumberish],
   ): string
+  encodeFunctionData(
+    functionFragment: 'purchasedAmount',
+    values?: undefined,
+  ): string
   encodeFunctionData(functionFragment: 'rate', values?: undefined): string
   encodeFunctionData(functionFragment: 'rates', values: [BigNumberish]): string
   encodeFunctionData(functionFragment: 'receive', values?: undefined): string
+  encodeFunctionData(functionFragment: 'remaining', values?: undefined): string
   encodeFunctionData(functionFragment: 'startTime', values?: undefined): string
   encodeFunctionData(functionFragment: 'token', values?: undefined): string
   encodeFunctionData(functionFragment: 'wallet', values?: undefined): string
@@ -90,9 +97,14 @@ interface KourinTokenCrowdsaleInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: 'hasStarted', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'openingTime', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'periods', data: BytesLike): Result
+  decodeFunctionResult(
+    functionFragment: 'purchasedAmount',
+    data: BytesLike,
+  ): Result
   decodeFunctionResult(functionFragment: 'rate', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'rates', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'receive', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'remaining', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'startTime', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'token', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'wallet', data: BytesLike): Result
@@ -170,6 +182,10 @@ export class KourinTokenCrowdsale extends Contract {
       overrides?: CallOverrides,
     ): Promise<[BigNumber]>
 
+    purchasedAmount(overrides?: CallOverrides): Promise<[BigNumber]>
+
+    'purchasedAmount()'(overrides?: CallOverrides): Promise<[BigNumber]>
+
     rate(overrides?: CallOverrides): Promise<[BigNumber]>
 
     'rate()'(overrides?: CallOverrides): Promise<[BigNumber]>
@@ -184,6 +200,10 @@ export class KourinTokenCrowdsale extends Contract {
     receive(overrides?: PayableOverrides): Promise<ContractTransaction>
 
     'receive()'(overrides?: PayableOverrides): Promise<ContractTransaction>
+
+    remaining(overrides?: CallOverrides): Promise<[BigNumber]>
+
+    'remaining()'(overrides?: CallOverrides): Promise<[BigNumber]>
 
     startTime(overrides?: CallOverrides): Promise<[BigNumber]>
 
@@ -251,6 +271,10 @@ export class KourinTokenCrowdsale extends Contract {
     overrides?: CallOverrides,
   ): Promise<BigNumber>
 
+  purchasedAmount(overrides?: CallOverrides): Promise<BigNumber>
+
+  'purchasedAmount()'(overrides?: CallOverrides): Promise<BigNumber>
+
   rate(overrides?: CallOverrides): Promise<BigNumber>
 
   'rate()'(overrides?: CallOverrides): Promise<BigNumber>
@@ -265,6 +289,10 @@ export class KourinTokenCrowdsale extends Contract {
   receive(overrides?: PayableOverrides): Promise<ContractTransaction>
 
   'receive()'(overrides?: PayableOverrides): Promise<ContractTransaction>
+
+  remaining(overrides?: CallOverrides): Promise<BigNumber>
+
+  'remaining()'(overrides?: CallOverrides): Promise<BigNumber>
 
   startTime(overrides?: CallOverrides): Promise<BigNumber>
 
@@ -331,6 +359,10 @@ export class KourinTokenCrowdsale extends Contract {
       overrides?: CallOverrides,
     ): Promise<BigNumber>
 
+    purchasedAmount(overrides?: CallOverrides): Promise<BigNumber>
+
+    'purchasedAmount()'(overrides?: CallOverrides): Promise<BigNumber>
+
     rate(overrides?: CallOverrides): Promise<BigNumber>
 
     'rate()'(overrides?: CallOverrides): Promise<BigNumber>
@@ -345,6 +377,10 @@ export class KourinTokenCrowdsale extends Contract {
     receive(overrides?: CallOverrides): Promise<void>
 
     'receive()'(overrides?: CallOverrides): Promise<void>
+
+    remaining(overrides?: CallOverrides): Promise<BigNumber>
+
+    'remaining()'(overrides?: CallOverrides): Promise<BigNumber>
 
     startTime(overrides?: CallOverrides): Promise<BigNumber>
 
@@ -422,6 +458,10 @@ export class KourinTokenCrowdsale extends Contract {
       overrides?: CallOverrides,
     ): Promise<BigNumber>
 
+    purchasedAmount(overrides?: CallOverrides): Promise<BigNumber>
+
+    'purchasedAmount()'(overrides?: CallOverrides): Promise<BigNumber>
+
     rate(overrides?: CallOverrides): Promise<BigNumber>
 
     'rate()'(overrides?: CallOverrides): Promise<BigNumber>
@@ -436,6 +476,10 @@ export class KourinTokenCrowdsale extends Contract {
     receive(overrides?: PayableOverrides): Promise<BigNumber>
 
     'receive()'(overrides?: PayableOverrides): Promise<BigNumber>
+
+    remaining(overrides?: CallOverrides): Promise<BigNumber>
+
+    'remaining()'(overrides?: CallOverrides): Promise<BigNumber>
 
     startTime(overrides?: CallOverrides): Promise<BigNumber>
 
@@ -509,6 +553,12 @@ export class KourinTokenCrowdsale extends Contract {
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>
 
+    purchasedAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>
+
+    'purchasedAmount()'(
+      overrides?: CallOverrides,
+    ): Promise<PopulatedTransaction>
+
     rate(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     'rate()'(overrides?: CallOverrides): Promise<PopulatedTransaction>
@@ -526,6 +576,10 @@ export class KourinTokenCrowdsale extends Contract {
     receive(overrides?: PayableOverrides): Promise<PopulatedTransaction>
 
     'receive()'(overrides?: PayableOverrides): Promise<PopulatedTransaction>
+
+    remaining(overrides?: CallOverrides): Promise<PopulatedTransaction>
+
+    'remaining()'(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     startTime(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
