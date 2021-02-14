@@ -1,10 +1,9 @@
-import React from 'react'
-import { useAsync, UseAsyncReturn } from 'react-async-hook'
+import useSWR from 'swr'
 import { KourinTokenCrowdsale } from '../types/KourinTokenCrowdsale'
-import { createCtx } from '../utils/context'
 import { useCrowdsaleContract } from './crowdsale-contract'
+import { useWaitTruthy } from './wait-truthy'
 
-export type CrowdsaleContractInfo = {
+export type CrowdsaleInfo = {
   openingTime: Date
   closingTime: Date
   tokenAddress: string
@@ -17,23 +16,10 @@ export type CrowdsaleContractInfo = {
   }[]
 }
 
-const crowdsaleContractInfoContext = createCtx<
-  UseAsyncReturn<
-    CrowdsaleContractInfo,
-    [Promise<KourinTokenCrowdsale | undefined>]
-  >
->()
-
-export const useCrowdsaleInfo = crowdsaleContractInfoContext[0]
-
 const fetchCrowdsaleInfo = async (
-  cronwdsalePromise: Promise<KourinTokenCrowdsale | undefined>,
+  _key: string,
+  crowdsale: KourinTokenCrowdsale,
 ) => {
-  const crowdsale = await cronwdsalePromise
-  if (crowdsale === undefined) {
-    throw new Error('Crowdsale is undefined')
-  }
-
   const results = await Promise.all([
     crowdsale.openingTime(),
     crowdsale.closingTime(),
@@ -63,7 +49,6 @@ const fetchCrowdsaleInfo = async (
     })
     startedAt = endedAt
   }
-  console.log('phases', phases)
 
   return {
     openingTime,
@@ -73,23 +58,13 @@ const fetchCrowdsaleInfo = async (
     phases,
   }
 }
+export const useCrowdsaleInfo = () => {
+  const { data: crowdsaleContract } = useCrowdsaleContract()
 
-export const CrowdsaleContractInfoContextProvider: React.FC<{}> = (props) => {
-  const { children } = props
+  useWaitTruthy(crowdsaleContract)
 
-  const crowdsaleContract = useCrowdsaleContract()
-  const crowdsaleContractPromise =
-    crowdsaleContract.currentPromise ?? Promise.resolve(undefined)
-
-  const crowdsaleContractInfo = useAsync(fetchCrowdsaleInfo, [
-    crowdsaleContractPromise,
-  ])
-
-  const CrowdsaleContractInfoContextProvider = crowdsaleContractInfoContext[1]
-
-  return (
-    <CrowdsaleContractInfoContextProvider value={crowdsaleContractInfo}>
-      {children}
-    </CrowdsaleContractInfoContextProvider>
+  return useSWR(
+    crowdsaleContract ? ['crowdsale-info', crowdsaleContract] : null,
+    fetchCrowdsaleInfo,
   )
 }

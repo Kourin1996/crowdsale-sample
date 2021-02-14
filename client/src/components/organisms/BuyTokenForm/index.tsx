@@ -1,10 +1,10 @@
 import React from 'react'
 import { ethers } from 'ethers'
-import { useCrowdsaleContract } from '../../../contexts/crowdsale-contract'
-import { useCrowdsaleInfo } from '../../../contexts/crowdsale-info'
-import { useCrowdsaleStatus } from '../../../contexts/crowdsale-status'
 import { useEthersProvider } from '../../../contexts/ethers-provider'
 import { ViewBuyTokenForm } from './view'
+import { useCrowdsaleStatus } from '../../../hooks/crowdsale-status'
+import { useCrowdsaleInfo } from '../../../hooks/crowdsale-info'
+import { useCrowdsaleContract } from '../../../hooks/crowdsale-contract'
 
 type BuyTokenFormProps = {}
 
@@ -16,8 +16,9 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = React.memo((props) => {
 
   //todo
   if (
-    crowdsaleInfo.loading ||
-    crowdsaleStatus.loading ||
+    !crowdsale.data ||
+    !crowdsaleInfo.data ||
+    !crowdsaleStatus.data ||
     crowdsaleInfo.error ||
     crowdsaleStatus.error
   ) {
@@ -26,24 +27,24 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = React.memo((props) => {
 
   const networkName =
     provider.network.chainId === 31337 ? 'localhost' : provider.network.name
-  const crowdsaleAddress = crowdsale.result!.address
-  const tokenAddress = crowdsaleInfo.result!.tokenAddress
+  const crowdsaleAddress = crowdsale.data.address
+  const tokenAddress = crowdsaleInfo.data.tokenAddress
 
   const decimals = 5
   const exp = ethers.BigNumber.from(10).pow(18 - decimals)
 
   const purchasedAmount =
-    crowdsaleStatus.result!.purchasedAmount.div(exp).toNumber() / 10 ** decimals
+    crowdsaleStatus.data.purchasedAmount.div(exp).toNumber() / 10 ** decimals
   const totalAmount =
-    crowdsaleStatus
-      .result!.purchasedAmount.add(crowdsaleStatus.result!.remaining)
+    crowdsaleStatus.data.purchasedAmount
+      .add(crowdsaleStatus.data.remaining)
       .div(exp)
       .toNumber() /
     10 ** decimals
   const ethRaised =
-    crowdsaleStatus.result!.ethRaised.div(exp).toNumber() / 10 ** decimals
+    crowdsaleStatus.data.ethRaised.div(exp).toNumber() / 10 ** decimals
 
-  const currentRate = crowdsaleStatus.result!.currentRate
+  const currentRate = crowdsaleStatus.data.currentRate
 
   return (
     <ViewBuyTokenForm

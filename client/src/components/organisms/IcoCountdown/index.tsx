@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCrowdsaleInfo } from '../../../contexts/crowdsale-info'
+import { useCrowdsaleInfo } from '../../../hooks/crowdsale-info'
 import { IcoCountDownView } from './view'
 
 type IcoCountDownProps = {
@@ -21,13 +21,13 @@ export const IcoCountDown: React.FC<IcoCountDownProps> = React.memo(() => {
     }
   }, [])
 
-  if (crowdsaleInfo.loading || crowdsaleInfo.error || !crowdsaleInfo.result) {
+  if (crowdsaleInfo.error || !crowdsaleInfo.data) {
     return null
   }
 
   return (
     <IcoCountDownView
-      crowdsaleInfo={crowdsaleInfo.result}
+      crowdsaleInfo={crowdsaleInfo.data}
       currentTime={currentTime}
     />
   )

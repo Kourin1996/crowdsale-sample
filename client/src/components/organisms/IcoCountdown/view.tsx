@@ -1,5 +1,5 @@
 import React from 'react'
-import { CrowdsaleContractInfo } from '../../../contexts/crowdsale-info'
+import { CrowdsaleInfo } from '../../../hooks/crowdsale-info'
 import { CountDown } from '../../molecules/CountDown'
 
 enum IcoCountType {
@@ -10,7 +10,7 @@ enum IcoCountType {
 }
 
 const getTypeAndRemainingTime = (
-  info: CrowdsaleContractInfo,
+  info: CrowdsaleInfo,
   timestamp: Date,
 ): [IcoCountType, number, number] => {
   if (info.openingTime > timestamp) {
@@ -79,7 +79,7 @@ const parseTime = (timeInSeconds: number) => {
 
 type IcoCountDownViewProps = {
   children?: never
-  crowdsaleInfo: CrowdsaleContractInfo
+  crowdsaleInfo: CrowdsaleInfo
   currentTime: Date
 }
 

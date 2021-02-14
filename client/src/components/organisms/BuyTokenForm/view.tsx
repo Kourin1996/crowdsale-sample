@@ -1,8 +1,24 @@
 import React from 'react'
+import styled from 'styled-components'
 import { EthereumHash } from '../../atoms/EthereumHash'
 import { TableColumn } from '../../atoms/TableColumn'
 
-const { Button, Box, Flex, Text } = require('rimble-ui')
+const { Button, Input, Box, Flex, Text } = require('rimble-ui')
+
+const NumberInput = styled(Input)`
+  max-width: 200px;
+  padding-right: 65px;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+`
 
 type ViewBuyTokenFormProps = {
   networkName: string
@@ -95,7 +111,6 @@ export const ViewBuyTokenForm: React.FC<ViewBuyTokenFormProps> = (props) => {
             </TableColumn>
           </Box>
         </div>
-
         <TableColumn bgColor="near-white" label="Rate">
           <Text
             mr={[2, 0]}
@@ -107,7 +122,28 @@ export const ViewBuyTokenForm: React.FC<ViewBuyTokenFormProps> = (props) => {
           </Text>
         </TableColumn>
       </Flex>
-      <Button.Outline>Cancel purchase</Button.Outline>
+
+      <Flex justifyContent="center" alignItems="center">
+        <Box position="relative">
+          <NumberInput type="number" required={true} placeholder="ETH" />
+          <Box position="absolute" right={0} top={0}>
+            <Text color="near-black" lineHeight={'1em'} pt={3} pr={3}>
+              ETH
+            </Text>
+          </Box>
+        </Box>
+        <Text color="near-black" fontSize={3} mx={2}>
+          =
+        </Text>
+        <Box position="relative">
+          <NumberInput type="number" required={true} placeholder="Token" />
+          <Box position="absolute" right={0} top={0}>
+            <Text color="near-black" lineHeight={'1em'} pt={3} pr={3}>
+              Token
+            </Text>
+          </Box>
+        </Box>
+      </Flex>
     </Flex>
   )
 }
