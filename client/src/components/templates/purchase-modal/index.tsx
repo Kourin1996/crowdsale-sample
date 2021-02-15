@@ -18,6 +18,8 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
   const onBuyTokenClick = React.useCallback(() => setIsOpen(true), [])
   const onModalClose = React.useCallback(() => setIsOpen(false), [])
 
+  const onClickBuy = React.useCallback((eth: number, token: number) => {}, [])
+
   return (
     <div>
       <div className="flex justify-center">
@@ -35,7 +37,9 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
             right={0}
             onClick={onModalClose}
           />
-          {pageType === PageTypes.BuyTokenForm && <BuyTokenForm />}
+          {pageType === PageTypes.BuyTokenForm && (
+            <BuyTokenForm onClickBuy={onClickBuy} />
+          )}
         </Card>
       </Modal>
     </div>

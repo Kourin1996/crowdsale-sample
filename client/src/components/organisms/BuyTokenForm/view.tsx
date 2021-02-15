@@ -28,6 +28,12 @@ type ViewBuyTokenFormProps = {
   totalAmount: number
   ethRaised: number
   currentRate: number
+  ethAmount: string
+  tokenAmount: string
+  isBuyButtonDisable: boolean
+  onEthChange: React.ChangeEventHandler
+  onTokenAmountChange: React.ChangeEventHandler
+  onBuyButtonClick: React.MouseEventHandler
 }
 
 export const ViewBuyTokenForm: React.FC<ViewBuyTokenFormProps> = (props) => {
@@ -39,6 +45,12 @@ export const ViewBuyTokenForm: React.FC<ViewBuyTokenFormProps> = (props) => {
     totalAmount,
     ethRaised,
     currentRate,
+    ethAmount,
+    tokenAmount,
+    isBuyButtonDisable,
+    onEthChange,
+    onTokenAmountChange,
+    onBuyButtonClick,
   } = props
 
   return (
@@ -122,10 +134,15 @@ export const ViewBuyTokenForm: React.FC<ViewBuyTokenFormProps> = (props) => {
           </Text>
         </TableColumn>
       </Flex>
-
       <Flex justifyContent="center" alignItems="center">
         <Box position="relative">
-          <NumberInput type="number" required={true} placeholder="ETH" />
+          <NumberInput
+            type="number"
+            required={true}
+            placeholder="ETH"
+            value={ethAmount}
+            onChange={onEthChange}
+          />
           <Box position="absolute" right={0} top={0}>
             <Text color="near-black" lineHeight={'1em'} pt={3} pr={3}>
               ETH
@@ -136,7 +153,13 @@ export const ViewBuyTokenForm: React.FC<ViewBuyTokenFormProps> = (props) => {
           =
         </Text>
         <Box position="relative">
-          <NumberInput type="number" required={true} placeholder="Token" />
+          <NumberInput
+            type="number"
+            required={true}
+            placeholder="Token"
+            value={tokenAmount}
+            onChange={onTokenAmountChange}
+          />
           <Box position="absolute" right={0} top={0}>
             <Text color="near-black" lineHeight={'1em'} pt={3} pr={3}>
               Token
@@ -144,80 +167,11 @@ export const ViewBuyTokenForm: React.FC<ViewBuyTokenFormProps> = (props) => {
           </Box>
         </Box>
       </Flex>
+      <Flex mt={3} justifyContent="center">
+        <Button disabled={isBuyButtonDisable} onClick={onBuyButtonClick}>
+          BUY TOKEN
+        </Button>
+      </Flex>
     </Flex>
   )
 }
-
-/*
-<TableColumn bgColor="near-white">
-          <Text
-            textAlign={['center', 'left']}
-            color="near-black"
-            fontWeight="bold"
-          >
-            Price
-          </Text>
-          <Flex
-            alignItems={['center', 'flex-end']}
-            flexDirection={['row', 'column']}
-          >
-            <Text
-              mr={[2, 0]}
-              color="near-black"
-              fontWeight="bold"
-              lineHeight={'1em'}
-            >
-              5.4 ETH
-            </Text>
-            <Text color="mid-gray" fontSize={1}>
-              $1450 USD
-            </Text>
-          </Flex>
-        </TableColumn>
-
-        <TableColumn bgColor="light-grey">
-          <Flex alignItems={'center'}>
-            <Text
-              textAlign={['center', 'left']}
-              color="near-black"
-              fontWeight="bold"
-            >
-              Transaction fee
-            </Text>
-            <Tooltip
-              message="Pays the Ethereum network to process your transaction. Spent even if the transaction fails."
-              position="top"
-            >
-              <Icon
-                ml={1}
-                name={'InfoOutline'}
-                size={'14px'}
-                color={'primary'}
-              />
-            </Tooltip>
-          </Flex>
-          <Flex
-            alignItems={['center', 'flex-end']}
-            flexDirection={['row', 'column']}
-          >
-            <Text
-              mr={[2, 0]}
-              color="near-black"
-              fontWeight="bold"
-              lineHeight={'1em'}
-            >
-              $0.42
-            </Text>
-            <Text color="mid-gray" fontSize={1}>
-              0.00112 ETH
-            </Text>
-          </Flex>
-        </TableColumn>
-
-        <TableColumn bgColor="near-white">
-          <Text color="near-black" fontWeight="bold">
-            Estimated time
-          </Text>
-          <Text color={'mid-gray'}>Less than 2 minutes</Text>
-        </TableColumn>
-        */
