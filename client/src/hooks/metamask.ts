@@ -11,14 +11,32 @@ export const useIsMetamaskInstalled = () => {
   return isInstalled
 }
 
-export const useSelectedAccountAddress = () => {}
+export const useMetamaskChainId = () => {
+  const isMetamaskInstalled = useIsMetamaskInstalled()
+
+  const swr = useSWR<string>(
+    isMetamaskInstalled ? 'metamask-eth_chainId' : null,
+    async () => await window.ethereum.request({ method: 'eth_chainId' }),
+  )
+
+  React.useEffect(() => {
+    if (isMetamaskInstalled) {
+      window.ethereum.on('chainChanged', (chainId: string) => {
+        swr.mutate(chainId)
+      })
+    }
+  }, [isMetamaskInstalled, swr])
+
+  return swr
+}
 
 export const useMetamaskAccounts = () => {
   const isMetamaskInstalled = useIsMetamaskInstalled()
 
   const swr = useSWR<string[]>(
     isMetamaskInstalled ? 'metamask-eth_requestAccounts' : null,
-    async () => window.ethereum.request({ method: 'eth_requestAccounts' }),
+    async () =>
+      await window.ethereum.request({ method: 'eth_requestAccounts' }),
   )
 
   React.useEffect(() => {
