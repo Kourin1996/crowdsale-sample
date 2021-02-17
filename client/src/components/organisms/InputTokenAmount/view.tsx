@@ -20,7 +20,7 @@ const NumberInput = styled(Input)`
   }
 `
 
-type ViewBuyTokenFormProps = {
+type ViewInputTokenAmountProps = {
   networkName: string
   crowdsaleAddress: string
   tokenAddress: string
@@ -36,7 +36,9 @@ type ViewBuyTokenFormProps = {
   onBuyButtonClick: React.MouseEventHandler
 }
 
-export const ViewBuyTokenForm: React.FC<ViewBuyTokenFormProps> = (props) => {
+export const ViewInputTokenAmount: React.FC<ViewInputTokenAmountProps> = (
+  props,
+) => {
   const {
     networkName,
     crowdsaleAddress,

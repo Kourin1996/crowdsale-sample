@@ -1,10 +1,13 @@
 import React from 'react'
-import { BuyTokenForm } from '../../organisms/BuyTokenForm'
+import { useCrowdsaleStatus } from '../../../hooks/crowdsale-status'
+import { InputTokenAmount } from '../../organisms/InputTokenAmount'
+import { SubmitTransaction } from '../../organisms/SubmitTransaction'
 
 const { Modal, Card, Button } = require('rimble-ui')
 
 enum PageTypes {
-  BuyTokenForm = 'BuyTokenForm',
+  InputTokenAmount = 'InputTokenAmount',
+  SubmitTransaction = 'SubmitTransaction',
 }
 
 type PurchaseModalProps = {
@@ -13,18 +16,36 @@ type PurchaseModalProps = {
 
 export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
   const [isOpen, setIsOpen] = React.useState(false)
-  const [pageType] = React.useState(PageTypes.BuyTokenForm)
+  const [pageType, setPageType] = React.useState(PageTypes.InputTokenAmount)
 
   const onBuyTokenClick = React.useCallback(() => setIsOpen(true), [])
-  const onModalClose = React.useCallback(() => setIsOpen(false), [])
+  const onModalClose = React.useCallback(() => {
+    setIsOpen(false)
+    setPageType(PageTypes.InputTokenAmount)
+  }, [])
 
-  const onClickBuy = React.useCallback((eth: number, token: number) => {}, [])
+  const [ethAmount, setEthAmount] = React.useState<number | undefined>(
+    undefined,
+  )
+  const [tokenAmount, setTokenAmount] = React.useState<number | undefined>(
+    undefined,
+  )
+  const onClickBuy = React.useCallback((eth: number, token: number) => {
+    setEthAmount(eth)
+    setTokenAmount(token)
+    setPageType(PageTypes.SubmitTransaction)
+  }, [])
+
+  const { data: crowdsaleStatus } = useCrowdsaleStatus()
+  const isBuyButtonDisabled =
+    !crowdsaleStatus || !crowdsaleStatus.hasStarted || crowdsaleStatus.hasClosed
 
   return (
     <div>
       <div className="flex justify-center">
-        {/* todo: disable on close */}
-        <Button onClick={onBuyTokenClick}>BUY TOKEN</Button>
+        <Button disabled={isBuyButtonDisabled} onClick={onBuyTokenClick}>
+          BUY TOKEN
+        </Button>
       </div>
       <Modal isOpen={isOpen}>
         <Card minWidth="600px">
@@ -37,9 +58,14 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
             right={0}
             onClick={onModalClose}
           />
-          {pageType === PageTypes.BuyTokenForm && (
-            <BuyTokenForm onClickBuy={onClickBuy} />
+          {pageType === PageTypes.InputTokenAmount && (
+            <InputTokenAmount onClickBuy={onClickBuy} />
           )}
+          {pageType === PageTypes.SubmitTransaction &&
+            ethAmount &&
+            tokenAmount && (
+              <SubmitTransaction eth={ethAmount} token={tokenAmount} />
+            )}
         </Card>
       </Modal>
     </div>
