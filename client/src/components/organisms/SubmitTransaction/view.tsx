@@ -1,4 +1,5 @@
 import React from 'react'
+import { TableColumn } from '../../atoms/TableColumn'
 const { Loader, Box, Flex, Text, Flash } = require('rimble-ui')
 const NetworkIndicator = require('@rimble/network-indicator')
 
@@ -6,6 +7,10 @@ type ViewSubmitTransactionProps = {
   children?: never
   eth: number
   token: number
+  accountAddress: string | null
+  contractAddress: string | null
+  gasPriceInGWei: number | null
+  estimateGas: number | null
   providerChainId: number | null
   providerNetworkName: string | null
   metamaskChainId: number | null
@@ -20,6 +25,10 @@ export const ViewSubmitTransaction: React.FC<ViewSubmitTransactionProps> = (
   const {
     eth,
     token,
+    accountAddress,
+    contractAddress,
+    gasPriceInGWei,
+    estimateGas,
     providerChainId,
     providerNetworkName,
     metamaskChainId,
@@ -80,20 +89,77 @@ export const ViewSubmitTransaction: React.FC<ViewSubmitTransactionProps> = (
         <Box bg={'primary'} px={3} py={2}>
           <Text color={'white'}>Transaction Information</Text>
         </Box>
+        <TableColumn bgColor="light-grey" label="Network">
+          <NetworkIndicator
+            currentNetwork={metamaskChainId}
+            requiredNetwork={providerChainId}
+          />
+        </TableColumn>
+        <TableColumn bgColor="near-white" label="From">
+          <Text
+            mr={[2, 0]}
+            color="near-black"
+            fontWeight="bold"
+            lineHeight={'1em'}
+          >
+            {accountAddress}
+          </Text>
+        </TableColumn>
+        <TableColumn bgColor="light-grey" label="To">
+          <Text
+            mr={[2, 0]}
+            color="near-black"
+            fontWeight="bold"
+            lineHeight={'1em'}
+          >
+            {contractAddress}
+          </Text>
+        </TableColumn>
+        <div className="grid grid-cols-2">
+          <TableColumn bgColor="near-white" label="Pay">
+            <Text
+              mr={[2, 0]}
+              color="near-black"
+              fontWeight="bold"
+              lineHeight={'1em'}
+            >
+              {`${eth} ETH`}
+            </Text>
+          </TableColumn>
+          <TableColumn bgColor="near-white" label="Receive">
+            <Text
+              mr={[2, 0]}
+              color="near-black"
+              fontWeight="bold"
+              lineHeight={'1em'}
+            >
+              {`${token} Token`}
+            </Text>
+          </TableColumn>
+        </div>
+        <div className="grid grid-cols-2">
+          <TableColumn bgColor="light-grey" label="Estimate Gas">
+            <Text
+              mr={[2, 0]}
+              color="near-black"
+              fontWeight="bold"
+              lineHeight={'1em'}
+            >
+              {`${estimateGas}`}
+            </Text>
+          </TableColumn>
+          <TableColumn bgColor="light-grey" label="Gas Price">
+            <Text
+              mr={[2, 0]}
+              color="near-black"
+              fontWeight="bold"
+              lineHeight={'1em'}
+            >
+              {`${gasPriceInGWei} GWei`}
+            </Text>
+          </TableColumn>
+        </div>
       </Flex>
     </Flex>
   )
-}
-
-{
-  /* <NetworkIndicator
-currentNetwork={metamaskChainId}
-requiredNetwork={providerChainId}
->
-{{
-  onNetworkMessage: 'Connected to correct network',
-  noNetworkMessage: 'Not connected to anything',
-  onWrongNetworkMessage: 'Wrong network',
-}}
-</NetworkIndicator> */
 }
