@@ -2,7 +2,6 @@ import { ethers } from 'ethers'
 import React from 'react'
 import { useEthersProvider } from '../../../contexts/ethers-provider'
 import { useCrowdsaleContract } from '../../../hooks/crowdsale-contract'
-import { useCrowdsaleInfo } from '../../../hooks/crowdsale-info'
 import { useEstimateTransferGas, useGasPrice } from '../../../hooks/gas'
 import {
   useIsMetamaskInstalled,
@@ -16,11 +15,12 @@ type SubmitTransactionProps = {
   children?: never
   eth: number
   token: number
+  onTransactionCreated: (txHash: string) => void
 }
 
 export const SubmitTransaction: React.FC<SubmitTransactionProps> = React.memo(
   (props) => {
-    const { eth, token } = props
+    const { eth, token, onTransactionCreated } = props
 
     const provider = useEthersProvider()
     const { data: crowdsale } = useCrowdsaleContract()
@@ -32,6 +32,45 @@ export const SubmitTransaction: React.FC<SubmitTransactionProps> = React.memo(
       metamaskAccounts ? metamaskAccounts[0] : '',
       crowdsale ? crowdsale.address : '',
       ethers.utils.parseEther(`${eth}`),
+    )
+
+    const [isSubmitting, setIsSubmitting] = React.useState(false)
+    const onSubmit = React.useCallback(
+      async (e: React.MouseEvent) => {
+        e.preventDefault()
+        setIsSubmitting(true)
+
+        try {
+          const txHash = await window.ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [
+              {
+                nonce: '0x00',
+                gasPrice: gasPrice?.toHexString(),
+                gas: estimateGas?.toHexString(),
+                to: crowdsale?.address,
+                from: metamaskAccounts ? metamaskAccounts[0] : '',
+                value: ethers.utils.parseEther(`${eth}`).toHexString(),
+                chainId: provider.network.chainId.toString(16),
+              },
+            ],
+          })
+          onTransactionCreated(txHash)
+        } catch (error) {
+          console.error(error)
+        } finally {
+          setIsSubmitting(false)
+        }
+      },
+      [
+        onTransactionCreated,
+        provider,
+        eth,
+        crowdsale,
+        gasPrice,
+        estimateGas,
+        metamaskAccounts,
+      ],
     )
 
     const accountAddress = metamaskAccounts ? metamaskAccounts[0] : null
@@ -61,6 +100,8 @@ export const SubmitTransaction: React.FC<SubmitTransactionProps> = React.memo(
         isMetamaskInstalled={isMetamaskInstalled}
         isConnectedToMetamask={isConnectedToMetamask}
         isConnectingToMetamask={isConnectingToMetamask}
+        isSubmitting={isSubmitting}
+        onSubmit={onSubmit}
       />
     )
   },

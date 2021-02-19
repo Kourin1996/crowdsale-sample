@@ -1,6 +1,14 @@
 import React from 'react'
 import { TableColumn } from '../../atoms/TableColumn'
-const { Loader, Box, Flex, Text, Flash } = require('rimble-ui')
+const {
+  Loader,
+  Box,
+  Flex,
+  Text,
+  Flash,
+  Button,
+  MetaMaskButton,
+} = require('rimble-ui')
 const NetworkIndicator = require('@rimble/network-indicator')
 
 type ViewSubmitTransactionProps = {
@@ -17,6 +25,8 @@ type ViewSubmitTransactionProps = {
   isMetamaskInstalled: boolean
   isConnectedToMetamask: boolean
   isConnectingToMetamask: boolean
+  isSubmitting: boolean
+  onSubmit: React.MouseEventHandler
 }
 
 export const ViewSubmitTransaction: React.FC<ViewSubmitTransactionProps> = (
@@ -35,6 +45,8 @@ export const ViewSubmitTransaction: React.FC<ViewSubmitTransactionProps> = (
     isMetamaskInstalled,
     isConnectingToMetamask,
     isConnectedToMetamask,
+    isSubmitting,
+    onSubmit,
   } = props
 
   const showsWrongNetworkAlert =
@@ -159,6 +171,17 @@ export const ViewSubmitTransaction: React.FC<ViewSubmitTransactionProps> = (
             </Text>
           </TableColumn>
         </div>
+      </Flex>
+      <Flex mt={2} justifyContent="center">
+        <MetaMaskButton.Outline onClick={onSubmit} disabled={isSubmitting}>
+          {isSubmitting !== true ? (
+            `Submit with MetaMask`
+          ) : (
+            <Box>
+              <Loader />
+            </Box>
+          )}
+        </MetaMaskButton.Outline>
       </Flex>
     </Flex>
   )

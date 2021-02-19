@@ -1,5 +1,6 @@
 import React from 'react'
 import { useCrowdsaleStatus } from '../../../hooks/crowdsale-status'
+import { ConfirmTransaction } from '../../organisms/ConfirmTransaction'
 import { InputTokenAmount } from '../../organisms/InputTokenAmount'
 import { SubmitTransaction } from '../../organisms/SubmitTransaction'
 
@@ -8,6 +9,7 @@ const { Modal, Card, Button } = require('rimble-ui')
 enum PageTypes {
   InputTokenAmount = 'InputTokenAmount',
   SubmitTransaction = 'SubmitTransaction',
+  ConfirmTransaction = 'ConfirmTransaction',
 }
 
 type PurchaseModalProps = {
@@ -30,10 +32,15 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
   const [tokenAmount, setTokenAmount] = React.useState<number | undefined>(
     undefined,
   )
+  const [txHash, setTxHash] = React.useState<string | undefined>(undefined)
   const onClickBuy = React.useCallback((eth: number, token: number) => {
     setEthAmount(eth)
     setTokenAmount(token)
     setPageType(PageTypes.SubmitTransaction)
+  }, [])
+  const onTransactionCreated = React.useCallback((txHash: string) => {
+    setTxHash(txHash)
+    setPageType(PageTypes.ConfirmTransaction)
   }, [])
 
   const { data: crowdsaleStatus } = useCrowdsaleStatus()
@@ -64,8 +71,15 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
           {pageType === PageTypes.SubmitTransaction &&
             ethAmount &&
             tokenAmount && (
-              <SubmitTransaction eth={ethAmount} token={tokenAmount} />
+              <SubmitTransaction
+                eth={ethAmount}
+                token={tokenAmount}
+                onTransactionCreated={onTransactionCreated}
+              />
             )}
+          {pageType === PageTypes.ConfirmTransaction && txHash && (
+            <ConfirmTransaction txHash={txHash} />
+          )}
         </Card>
       </Modal>
     </div>
