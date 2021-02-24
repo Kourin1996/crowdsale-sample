@@ -10,6 +10,7 @@ enum PageTypes {
   InputTokenAmount = 'InputTokenAmount',
   SubmitTransaction = 'SubmitTransaction',
   ConfirmTransaction = 'ConfirmTransaction',
+  CompleteTransaction = 'CompleteTransaction',
 }
 
 type PurchaseModalProps = {
@@ -41,6 +42,11 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
   const onTransactionCreated = React.useCallback((txHash: string) => {
     setTxHash(txHash)
     setPageType(PageTypes.ConfirmTransaction)
+  }, [])
+
+  const onTransactionCompleted = React.useCallback((txHash: string) => {
+    setTxHash(txHash)
+    setPageType(PageTypes.CompleteTransaction)
   }, [])
 
   const { data: crowdsaleStatus } = useCrowdsaleStatus()
@@ -78,7 +84,10 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
               />
             )}
           {pageType === PageTypes.ConfirmTransaction && txHash && (
-            <ConfirmTransaction txHash={txHash} />
+            <ConfirmTransaction
+              txHash={txHash}
+              onComplete={onTransactionCompleted}
+            />
           )}
         </Card>
       </Modal>

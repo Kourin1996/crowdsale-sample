@@ -1,8 +1,10 @@
 import React from 'react'
 import { getExplorerURL } from '../../../utils/explorer'
+import { contractHash } from '../../../utils/string'
 import { TableColumn } from '../../atoms/TableColumn'
 const { Box, Flex, Text, Loader, Link, Tooltip } = require('rimble-ui')
 const { CheckCircle } = require('@rimble/icons')
+const NetworkIndicator = require('@rimble/network-indicator')
 
 type AwaitingStatusProps = {
   children?: never
@@ -72,8 +74,13 @@ const CompletedStatus: React.FC<CompletedStatusProps> = () => {
 
 type ViewConfirmTransactionProps = {
   children?: never
-  txHash: string
+  chainId: number | null
   networkName: string
+  txHash: string
+  blockHash: string | null
+  blockNumber: number | null
+  gasUsed: number | null
+  gasPrice: number | null
   confirmations: number
   requiredConfirmations: number
   progress: number
@@ -84,17 +91,21 @@ export const ViewConfirmTransaction: React.FC<ViewConfirmTransactionProps> = (
   props,
 ) => {
   const {
-    txHash,
+    chainId,
     networkName,
+    txHash,
+    blockHash,
+    blockNumber,
+    gasUsed,
+    gasPrice,
     confirmations,
     requiredConfirmations,
     progress,
     isCompleted,
   } = props
 
-  const minimumTxHash = txHash
-    ? `${txHash.slice(0, 10)}...${txHash.slice(txHash.length - 10)}`
-    : ''
+  const minimumTxHash = contractHash(txHash)
+  const minimumBlockHash = contractHash(blockHash ?? '')
 
   return (
     <Flex flexDirection="column">
@@ -128,6 +139,9 @@ export const ViewConfirmTransaction: React.FC<ViewConfirmTransactionProps> = (
             <CompletedStatus />
           )}
         </Flex>
+        <TableColumn bgColor="light-grey" label="Network">
+          <NetworkIndicator currentNetwork={chainId} />
+        </TableColumn>
         <TableColumn bgColor="near-white" label="Tx Hash">
           <Link
             href={getExplorerURL(networkName, 'tx', txHash)}
@@ -144,6 +158,35 @@ export const ViewConfirmTransaction: React.FC<ViewConfirmTransactionProps> = (
             </Tooltip>
           </Link>
         </TableColumn>
+        <TableColumn bgColor="light-grey" label="Block Hash">
+          {blockHash && (
+            <Link
+              href={getExplorerURL(networkName, 'block', blockHash)}
+              target={'_blank'}
+            >
+              <Tooltip message={txHash}>
+                <Flex
+                  justifyContent={['center', 'auto']}
+                  alignItems={'center'}
+                  flexDirection="row-reverse"
+                >
+                  <Text fontWeight="bold">{minimumBlockHash}</Text>
+                </Flex>
+              </Tooltip>
+            </Link>
+          )}
+        </TableColumn>
+        <TableColumn bgColor="near-white" label="Block Number">
+          {blockNumber && <Text fontWeight="bold">{blockNumber}</Text>}
+        </TableColumn>
+        <div className="grid grid-cols-2">
+          <TableColumn bgColor="light-grey" label="Gas Used">
+            {gasUsed && <Text fontWeight="bold">{gasUsed}</Text>}
+          </TableColumn>
+          <TableColumn bgColor="light-grey" label="Gas Price">
+            {gasPrice && <Text fontWeight="bold">{`${gasPrice} GWei`}</Text>}
+          </TableColumn>
+        </div>
       </Flex>
     </Flex>
   )

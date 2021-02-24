@@ -1,14 +1,6 @@
 import React from 'react'
 import { TableColumn } from '../../atoms/TableColumn'
-const {
-  Loader,
-  Box,
-  Flex,
-  Text,
-  Flash,
-  Button,
-  MetaMaskButton,
-} = require('rimble-ui')
+const { Loader, Box, Flex, Text, Flash, MetaMaskButton } = require('rimble-ui')
 const NetworkIndicator = require('@rimble/network-indicator')
 
 type ViewSubmitTransactionProps = {
