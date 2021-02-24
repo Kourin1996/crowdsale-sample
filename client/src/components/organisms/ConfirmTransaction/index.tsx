@@ -8,12 +8,11 @@ import { ViewConfirmTransaction } from './view'
 type ConfirmTransactionProps = {
   children?: never
   txHash: string
-  onComplete: (txHash: string) => void
 }
 
 export const ConfirmTransaction: React.FC<ConfirmTransactionProps> = React.memo(
   (props) => {
-    const { txHash, onComplete } = props
+    const { txHash } = props
 
     const { data: transaction } = useTransaction(txHash)
     const transactionEvent = useTransactionEvent(txHash)
@@ -30,18 +29,6 @@ export const ConfirmTransaction: React.FC<ConfirmTransactionProps> = React.memo(
     const confirmations = transactionEvent?.confirmations ?? 0
     const progress = confirmations / REQUIRED_CONFIRMATIONS
     const isCompleted = confirmations === REQUIRED_CONFIRMATIONS
-
-    React.useEffect(() => {
-      if (isCompleted) {
-        const timer = setTimeout(() => {
-          onComplete(txHash)
-        }, 1000)
-        return () => {
-          clearTimeout(timer)
-        }
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isCompleted])
 
     return (
       <ViewConfirmTransaction
