@@ -10,9 +10,13 @@ const TOKEN_INITIAL_AMOUNT = BigNumber.from(10).pow(18 + 5);
 // const CLOSE_IN = 60 * 60 * 24 * 7; // in 7 days [sec]
 // const PERIODS = [1 * 60 * 60 * 24, 2 * 60 * 60 * 24, 4 * 60 * 60 * 24];
 
+// const OPEN_IN = 60;
+// const CLOSE_IN = 60 * 60 * 7;
+// const PERIODS = [60 * 60, 2 * 60 * 60, 3 * 60 * 60];
+
 const OPEN_IN = 60;
-const CLOSE_IN = 60 * 60 * 7;
-const PERIODS = [60 * 60, 2 * 60 * 60, 3 * 60 * 60];
+const CLOSE_IN = 60 * 7;
+const PERIODS = [60 * 1, 60 * 2, 60 * 3];
 
 const RATES = [2000, 1000, 500];
 
