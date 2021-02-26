@@ -1,11 +1,19 @@
 import React from 'react'
+import { useCrowdsaleInfo } from '../../../hooks/crowdsale-info'
+import { useCrowdsaleStatus } from '../../../hooks/crowdsale-status'
 import { IcoCountDown } from '../../organisms/IcoCountdown'
 import { IcoProgress } from '../../organisms/IcoProgress'
 import { PurchaseModal } from '../purchase-modal'
 
+const { Loader } = require('rimble-ui')
+
 type IndexPageTemplateProps = {}
 
 export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = (_props) => {
+  const { data: crowdsaleInfo } = useCrowdsaleInfo()
+  const { data: crowdsaleStatus } = useCrowdsaleStatus()
+  const isLoading = !crowdsaleInfo || !crowdsaleStatus
+
   return (
     <>
       <div
@@ -41,13 +49,25 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = (_props) => {
                 borderRight: '1px rgba(40,40,40,0.35) solid',
               }}
             >
-              <IcoCountDown />
-              <div className="mt-4">
-                <IcoProgress />
-              </div>
-              <div className="mt-6">
-                <PurchaseModal />
-              </div>
+              {isLoading && (
+                <div
+                  className="flex items-center justify-center"
+                  style={{ height: '100%' }}
+                >
+                  <Loader size="40px" />
+                </div>
+              )}
+              {!isLoading && (
+                <>
+                  <IcoCountDown />
+                  <div className="mt-4">
+                    <IcoProgress />
+                  </div>
+                  <div className="mt-6">
+                    <PurchaseModal />
+                  </div>
+                </>
+              )}
             </div>
             <div className="absolute z-0 right-5" style={{ bottom: '-20px' }}>
               <img
