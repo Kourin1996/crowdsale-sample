@@ -1,6 +1,7 @@
 import React from 'react'
 import { useCrowdsaleStatus } from '../../../hooks/crowdsale-status'
 import { ConfirmTransaction } from '../../organisms/ConfirmTransaction'
+import { ErrorTransaction } from '../../organisms/ErrorTransaction'
 import { InputTokenAmount } from '../../organisms/InputTokenAmount'
 import { SubmitTransaction } from '../../organisms/SubmitTransaction'
 
@@ -10,6 +11,7 @@ enum PageTypes {
   InputTokenAmount = 'InputTokenAmount',
   SubmitTransaction = 'SubmitTransaction',
   ConfirmTransaction = 'ConfirmTransaction',
+  ErrorTransaction = 'ErrorTransaction',
 }
 
 type PurchaseModalProps = {
@@ -41,6 +43,10 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
   const onTransactionCreated = React.useCallback((txHash: string) => {
     setTxHash(txHash)
     setPageType(PageTypes.ConfirmTransaction)
+  }, [])
+  const onTransactionError = React.useCallback((txHash?: string) => {
+    setPageType(PageTypes.ErrorTransaction)
+    setTxHash(txHash ?? undefined)
   }, [])
 
   const { data: crowdsaleStatus } = useCrowdsaleStatus()
@@ -75,11 +81,13 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = (props) => {
                 eth={ethAmount}
                 token={tokenAmount}
                 onTransactionCreated={onTransactionCreated}
+                onTransactionError={onTransactionError}
               />
             )}
           {pageType === PageTypes.ConfirmTransaction && txHash && (
             <ConfirmTransaction txHash={txHash} />
           )}
+          {pageType === PageTypes.ErrorTransaction && <ErrorTransaction />}
         </Card>
       </Modal>
     </div>

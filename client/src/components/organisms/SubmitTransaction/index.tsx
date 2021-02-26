@@ -16,11 +16,12 @@ type SubmitTransactionProps = {
   eth: number
   token: number
   onTransactionCreated: (txHash: string) => void
+  onTransactionError: () => void
 }
 
 export const SubmitTransaction: React.FC<SubmitTransactionProps> = React.memo(
   (props) => {
-    const { eth, token, onTransactionCreated } = props
+    const { eth, token, onTransactionCreated, onTransactionError } = props
 
     const provider = useEthersProvider()
     const { data: crowdsale } = useCrowdsaleContract()
@@ -58,12 +59,14 @@ export const SubmitTransaction: React.FC<SubmitTransactionProps> = React.memo(
           onTransactionCreated(txHash)
         } catch (error) {
           console.error(error)
+          onTransactionError()
         } finally {
           setIsSubmitting(false)
         }
       },
       [
         onTransactionCreated,
+        onTransactionError,
         provider,
         eth,
         crowdsale,
